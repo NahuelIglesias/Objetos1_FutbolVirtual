@@ -1,8 +1,19 @@
 class Liga {
 	var equipos //conjunto de equipos
+	var representantes //conjunto de representantes
+	
+	method equipos() = equipos
+	method representantes() = representantes
 	
 	method equipoConMasVision() {
 		return equipos.max({equipo => equipo.vision()})
+	}
+	
+	method destinosPosibles(jugadorX) {
+		var destinosPosibles = #{}
+		destinosPosibles.add(equipos.filter({equipo => equipo.leInteresa(jugadorX)}))
+		destinosPosibles.add(representantes.filter({representante => representante.leInteresa(jugadorX)}))
+		return destinosPosibles
 	}
 }
 
@@ -11,6 +22,9 @@ class Liga {
 
 class Equipo {
 	var jugadores //conjunto de jugadores
+	var liga //instancia de clase Liga a la que pertenece
+	
+	method liga() = liga
 	
 	method potencia() {
 		return jugadores.max({jugador => jugador.potencia()})
@@ -100,6 +114,10 @@ class Jugador {
 	method enRiesgo() {
 		return duenio.prefiereDescartar(self)
 	}
+	
+	method posiblesDestinos() {
+		return duenio.liga().destinosPosibles()
+	}
 }
 
 class Defensor inherits Jugador {
@@ -127,6 +145,9 @@ class Atacante inherits Jugador {
 
 class Representante {
 	var pedidos //conjunto pedidos
+	var liga //instancia de clase Liga a la que pertenece
+	
+	method liga() = liga
 	
 	method leInteresa(jugadorX) {
 		return pedidos.any({pedido => pedido.satisface(jugadorX)})
