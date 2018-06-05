@@ -42,6 +42,14 @@ class Equipo {
 	method precisionPromedio() {
 		return self.precision()/jugadores.size()
 	}
+	
+	method puedeHacerTrato(representante) {
+		var leInteresanAlRep = 0
+		var interesanDelRep = 0
+		jugadores.forEach({jugador => if(representante.leInteresa(jugador)) {leInteresanAlRep +=1}})
+		representante.jugadores().forEach({jugador => if(self.leInteresa(jugador)) {interesanDelRep += 1}})
+		return (leInteresanAlRep) >= 2 and (interesanDelRep >= 2)
+ 	}
 }
 
 class Lirico inherits Equipo {
@@ -145,8 +153,10 @@ class Atacante inherits Jugador {
 
 class Representante {
 	var pedidos //conjunto pedidos
+	var jugadores //conjunto de jugadores
 	var liga //instancia de clase Liga a la que pertenece
 	
+	method jugadores() = jugadores
 	method liga() = liga
 	
 	method leInteresa(jugadorX) {
