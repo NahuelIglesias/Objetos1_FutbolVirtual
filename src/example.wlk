@@ -1,3 +1,14 @@
+class Liga {
+	var equipos //conjunto de equipos
+	
+	method equipoConMasVision() {
+		return equipos.max({equipo => equipo.vision()})
+	}
+}
+
+
+//------Equipos------
+
 class Equipo {
 	var jugadores //conjunto de jugadores
 	
