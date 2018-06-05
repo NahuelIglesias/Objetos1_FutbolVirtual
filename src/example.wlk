@@ -121,3 +121,46 @@ class Atacante inherits Jugador {
 		return visionJuego + habilidadPases
 	}
 }
+
+
+//------Representantes------
+
+class Representante {
+	var pedidos //conjunto pedidos
+	
+	method leInteresa(jugadorX) {
+		return pedidos.any({pedido => pedido.satisface(jugadorX)})
+	}
+	
+	method prefiereDescartar(jugadorX) {
+		return not self.leInteresa(jugadorX)
+	}
+}
+
+
+//------Pedidos------
+
+class PedidoPotencia {
+	var valorMin //numero
+	
+	method satisface(jugadorX) {
+		return jugadorX.potencia() >= valorMin
+	}
+}
+
+class PedidoVision {
+	var valorMin //numero
+	
+	method satisface(jugadorX) {
+		return jugadorX.visionGeneral() >= valorMin
+	}
+}
+
+class PedidoCombinado {
+	var valorMin //numero
+	var valorMax //numero
+	
+	method satisface(jugadorX) {
+		return valorMin < (jugadorX.visionGeneral() + jugadorX.precision() + jugadorX.habilidadPases()) < valorMax
+	}
+}
